@@ -1,4 +1,5 @@
 # используется для сортировки
+from operator import itemgetter
 
 
 class Car:
