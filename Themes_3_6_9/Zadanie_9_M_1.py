@@ -85,30 +85,54 @@ owner_classic = [
 
 # Основная функция программы
 def main():
-    """Основная функция"""
     # Соединение данных один-ко-многим
-    " ...... код......  "
+    for electro_car in electro_cars:
+        for owner in owners:
+            if owner.id == electro_car.owner_id:
+                print(f"Электрокар {electro_car.brand} принадлежит владельцу {owner.fio}")
 
     # Соединение данных многие ко многим-ко-многим
-    " ...... код......  "
+    for owner in owners:
+        owned_electro_cars = [electro_car.brand for electro_car in electro_cars if any(owner.id == eo.owner_id for eo in owner_electro)]
+        owned_classic_cars = [classic_car.brand for classic_car in classic_cars if any(owner.id == co.owner_id for co in owner_classic)]
+        print(f"{owner.fio} владеет электрокарами: {', '.join(owned_electro_cars)} и классическими автомобилями: {', '.join(owned_classic_cars)}")
 
     # Задание 1
-    # Выполнить сортировку по связи один-ко-многим
-    " ...... код......  "
+    sorted_electro_cars = sorted(electro_cars, key=itemgetter('owner_id'))
+    print("\nСортировка электрокаров по владельцам:")
+    for electro_car in sorted_electro_cars:
+        owner = next(owner for owner in owners if owner.id == electro_car.owner_id)
+        print(f"{electro_car.brand} принадлежит {owner.fio}")
 
     # Задание 2
-    # Перебрать всех автовладельцев, вывести стоимость автомобиля и суммарную стоимость
-    # Выполнить сортировку по суммарной стоимости автомобиля
-    " ...... код......  "
+    car_prices = {}
+    for owner in owners:
+        total_price = sum(car.price for car in electro_cars + classic_cars if any(owner.id == eo.owner_id or owner.id == co.owner_id for eo in owner_electro for co in owner_classic))
+        car_prices[owner.fio] = total_price
+
+    sorted_prices = dict(sorted(car_prices.items(), key=lambda x: x[1]))
+    print("\nСуммарная стоимость автомобилей у владельцев:")
+    for owner, price in sorted_prices.items():
+        print(f"{owner}: {price}")
 
     # Задание 3
-    # Перебрать всех автовладельцев, вывести фамилии, добавить результат в словарь.
-    # Ключ - автомобиль, значение - список фамилий
-    # Выполнить сортировку суммарной стоимости автомобиля
-    " ...... код......  "
+    car_owners_dict = {}
+    for car in electro_cars + classic_cars:
+        owner = next(owner.fio for owner in owners if owner.id == car.owner_id)
+        if car.brand not in car_owners_dict:
+            car_owners_dict[car.brand] = [owner]
+        else:
+            car_owners_dict[car.brand].append(owner)
 
-    # также нужно добавить проверку на ошибки - try except
+    print("\nСловарь автовладельцев по маркам автомобилей:")
+    for car, owners_list in car_owners_dict.items():
+        print(f"{car}: {', '.join(owners_list)}")
 
 
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as e:
+        print(f"Произошла ошибка: {e}")
+
+
