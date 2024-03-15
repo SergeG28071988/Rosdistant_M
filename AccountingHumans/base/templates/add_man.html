@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавление мужчин{% endblock %}
+
+{% block content %}
+  <h1>Добавление мужчин</h1>
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+      {{ form.title.label_tag }}
+      {{ form.name }}
+    </div><br>
+
+    <div class="form-group">
+      {{ form.title.label_tag }}
+      {{ form.surname }}
+    </div><br>
+
+    <div class="form-group">
+      {{ form.title.label_tag }}
+      {{ form.date_birth }}
+    </div><br>
+
+    <div class="form-group">
+      {{ form.title.label_tag }}
+      {{ form.place_residence }}
+    </div><br>
+
+    <button type="submit" class="btn btn-success">Добавить человека</button>
+    <span>{{ error }}</span> 
+ </form>
+{% endblock %}

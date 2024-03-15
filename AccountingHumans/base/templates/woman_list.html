@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} СПИСОК ЖЕНЩИН{% endblock %}
+
+{% block content %}
+  <h1>Список женщин </h1>
+  {% if woman  %}
+        {% for woman in woman %}
+            <div class="alert alert-warning mt-2 ">
+                <p>Имя:  {{ woman.name }}</p>
+                <h3>Фамилия:  {{ woman.surname  }}</h3>
+                <p>Дата рождения:  {{ woman.date_birth  }}</p>
+                <p>Место жительства: {{ woman.place_residence }}</p>
+            </div>        
+        {% endfor  %}
+    {% else %}
+        <p>У нас нет записей! </p>
+    {% endif %}
+{% endblock %}
